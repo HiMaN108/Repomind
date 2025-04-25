@@ -7,7 +7,10 @@ const DashboardPage = () => {
     const { user } = useUser()
 
     return (
-        <div>{user?.firstName}</div>
+        <div>
+            <div>{user?.firstName}</div>
+            <div>{user?.lastName}</div>
+        </div>
     )
 }
 
