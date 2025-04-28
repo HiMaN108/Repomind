@@ -3,6 +3,7 @@
 import useProject from '@/hooks/use-project'
 import { cn } from '@/lib/utils'
 import { api } from '@/trpc/react'
+import { Link } from 'lucide-react'
 import React from 'react'
 
 const CommitLog = () => {
@@ -34,7 +35,11 @@ const CommitLog = () => {
                     <> 
                         <div className='flex-auto rounded-mg bg-white p-3 ring-1 ring-inset ring-gray-200'>
                             <div className='flex justify-between gap-x-4'>
-                                <Link target='_black' href={`${project?githubUrl}`}
+                                <Link target='_black' href={`${project?.githubUrl}/commit/${commit.commitId}`}>
+                                    <p className='text-sm font-medium text-gray-900'>
+                                        {commit.commitMessage}
+                                    </p>
+                                </Link>
                             </div>
                         </div>
                     </>
