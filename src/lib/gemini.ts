@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import type { Document } from '@langchain/core/documents';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
@@ -50,22 +51,57 @@ export const aisummariseCommit = async (diff: string) => {
   }
 }
 
-console.log(await aisummariseCommit(`diff --git a/client/src/helper/helper.js b/client/src/helper/helper.js
-index be3e13d..2867823 100644
---- a/client/src/helper/helper.js
-+++ b/client/src/helper/helper.js
-@@ -1,7 +1,9 @@
- import axios from "axios";
- import { jwtDecode } from "jwt-decode";
+export async function summariseCode(doc: Document) {
+  console.log("getting summary for", doc.metadata.source);
+
+  try {
+    const code = doc.pageContent.slice(0,10000); //limit to 10000 characters
+    const response = await model.generateContent([
+      `You are an intelligendt senior software engineer who specilises in onboarding junior software engineers onto projects`,
+  
+      `You are onboarding a junior software engineer and explaning to them the purpose of the ${doc.metadata.source} file
+      Here is the code:
+      ---
+      ${code}
+      ---
+      Give the summary no more than 100 words of the code above`
+    ]);
+    return response.response.text();
+  } catch (error) {
+    console.error("Gemini summarization error:", error);
+    return " ";
+  }
  
--axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
-+axios.defaults.baseURL =
-+  process.env.REACT_APP_SERVER_DOMAIN ||
-+  "https://authentication-system-bxzd.onrender.com";
+  
+}
+
+export async function generateEmbedding(summary: string) {
+  const model = genAI.getGenerativeModel({
+    model: "text-embedding-004"
+  })
+
+  const result = await model.embedContent(summary)
+  const embedding = result.embedding
+  return embedding.values
+}
+
+
+// console.log(await aisummariseCommit(`diff --git a/client/src/helper/helper.js b/client/src/helper/helper.js
+// index be3e13d..2867823 100644
+// --- a/client/src/helper/helper.js
+// +++ b/client/src/helper/helper.js
+// @@ -1,7 +1,9 @@
+//  import axios from "axios";
+//  import { jwtDecode } from "jwt-decode";
  
- /** Make API Requests */
+// -axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
+// +axios.defaults.baseURL =
+// +  process.env.REACT_APP_SERVER_DOMAIN ||
+// +  "https://authentication-system-bxzd.onrender.com";
  
-    `))
+//  /** Make API Requests */
+ 
+//     `))
 
 
 // // console.log(await aisummariseCommit(

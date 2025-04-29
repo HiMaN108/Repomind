@@ -2,7 +2,7 @@
 
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
 import { Bot, CreditCard, LayoutDashboard, Plus, Presentation } from "lucide-react"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -39,6 +39,7 @@ const items = [
 export function AppSidebar(){
 
     const pathname = usePathname()
+    const router = useRouter()
     const {open}= useSidebar()
     const {projects, projectId, setProjectId} = useProject()
     return (
@@ -93,6 +94,7 @@ export function AppSidebar(){
                                         <SidebarMenuButton asChild>
                                             <div onClick={() => {
                                                 setProjectId(project.id)
+                                                router.push('/dashboard')
                                             }}>
                                                 <div className={cn(
                                                     'rounded-sm border size-6 flex items-center justify-center text-sm bg-white text-primary',
