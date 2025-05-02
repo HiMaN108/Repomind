@@ -9,8 +9,10 @@ import CommitLog from './commit-log'
 import AskQUestionCard from './ask-question-card'
 import MeetingCard from './meeting-card'
 import ArchiveButton from './archive-button'
-import InviteButton from './invite-button'
+// import InviteButton from './invite-button'
+const InviteButton = dynamic(() => import('./invite-button'), { ssr: false})
 import TeamMembes from './team-member'
+import dynamic from 'next/dynamic'
 
 const DashboardPage = () => {
     const { project } = useProject()
