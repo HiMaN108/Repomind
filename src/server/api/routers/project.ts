@@ -15,7 +15,7 @@ export const projectRouter = createTRPCRouter({
                     name: input.name,
                     userToProjects: {
                         create: {
-                            userId: ctx.user.userId!,
+                            userId: ctx.user.userId!
                         }
                     }
                 }

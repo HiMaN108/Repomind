@@ -8,7 +8,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import useProject from "@/hooks/use-project"
-
+import { Menu } from "lucide-react"  
 
 const items = [
     {
